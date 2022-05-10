@@ -1,0 +1,26 @@
+body{
+    text-align: center; 
+    background-color:grey;
+    font-size: 15px;
+    color: green;
+}
+
+.formular{
+    margin: center; 
+    display: inline-block;
+    padding-left: 3%;
+    padding-right: 3%;
+    text-align: left;    
+    border: solid 3px;
+    border-style: groove;
+    border-color: red;
+    background-color:black;
+}
+h1{
+    text-align: center; 
+
+}
+.login{
+    text-align: center; 
+}
+
