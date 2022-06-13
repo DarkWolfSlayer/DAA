@@ -1,99 +1,86 @@
-<!DOCTYPE html>
-<html>
-<head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-</head>
+<?php
+require_once('../idk/config.php');
+include('../idk/header.php');
+?>
+<main class="container">
+  <h1 class="m-4 text-uppercase" style="text-align: center">Articles</h1>
+
+  <?php
+  
+   $limit = 6;      
+   if (isset($_GET["page"])) { 
+     $pn  = $_GET["page"];
+     if($pn < 1){
+       $pn = 1;
+     } 
+   } 
+   else { 
+     $pn=1; 
+   };
+   function read_more($string)
+    {
+      // strip tags to avoid breaking any html
+$string = strip_tags($string);
+if (strlen($string) > 40) {
+
+    // truncate string
+    $stringCut = substr($string, 0, 40);
+    $endPoint = strrpos($stringCut, ' ');
+
+    //if the string doesn't contain any space then it will cut without word basis.
+    $string = $endPoint? substr($stringCut, 0, $endPoint) : substr($stringCut, 0);
+    $string .= '... <a href="/this/story">Read More</a>';
+}
+echo $string;
+    }
+
+
+   
 
 
 
 
+   $start_from = ($pn-1) * $limit;  
+   $query1 = $conn->query("SELECT * FROM clanok LIMIT $start_from, $limit");
+  
+  ?>
 
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center">
+      <?php
+      while ($row1 = $query1->fetch_assoc()) {
+      ?>
+        <div class="col-lg-4 col-md-5 col-sm-7" style="text-align: center">
+        
+          <img src="../idk/<?php echo $row1["Cover_image"] ?>" alt="<?php echo $row1["nazov_clanku"] ?>" style="width: 200px">
 
-
-
-
-
-<body>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        <div class="col">
-          <div class="card max-height-50 shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-
-            <div class="card-body">
-              <p class="card-text overflow-hidden" style="max-height: 10vh">
-                
-
-              </p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
+          <p><span style="font-size: 20px; font-weight: bold;">Title:</span> <?php echo $row1["nazov_clanku"] ?>
+          <p><span style="font-size: 20px; font-weight: bold;">Autor:</span> <?php echo $row1["autor"] ?>
+          <p><?php echo read_more ($row1["text"]) ?>
+          
         </div>
-               <div class="col">
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-
-            <div class="card-body">
-              <p class="card-text overflow-hidden" style="max-height: 10vh">
-               
-
-              </p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-          <div class="col">
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-
-            <div class="card-body">
-              <p class="card-text overflow-hidden" style="max-height: 10vh">
-               
-
-              </p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
-</div>
-
-
-
-<div class="card" style="width: 18rem;">
-  <img class="card-img-top" src="..." alt="Card image cap">
-  <div class="card-body">
-    <h5 class="card-title">Nazov Clanku</h5>
-    <p class="card-text">Pis hocico co ta napadne aby to bolo zaujimave</p>
+      
+      <?php
+      }
+      ?>
+    </div>
   </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Meno Autora</li>
-    <li class="list-group-item">Casopis</li>
-  </ul>
-  <div class="card-body">
-    <a href="#" class="edit">Edit</a>
-    <a href="#" class="delete">Delete</a>
-  </div>
-</div>
 
 
-</body>
-<!-- Boostrap Bundle file -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-</html>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item">
+        <a class="page-link" href="../idk/index.php <?php echo "?page=" . $pn - 1; ?>" aria-label="Previous Page">
+          <span aria-hidden="true">&laquo;</span>
+          <span class="sr-only">Previous</span>
+        </a>
+      </li>
+      <li class="page-item">
+        <a class="page-link" href="../idk/index.php<?php echo "?page=" . $pn + 1; ?>" aria-label="Next Page">
+          <span aria-hidden="true">&raquo;</span>
+          <span class="sr-only">Next</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</main>

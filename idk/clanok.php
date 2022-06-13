@@ -21,6 +21,15 @@
           rows="2" cols="33">
     </textarea>
 
+    
+      <p><select name="avata"style="margin-top: 30px;" class="form-select form-select-lg form-select-border-width-2" aria-label=".form-select-lg example">
+          <option disabled selected>Vyberte avatara</option>
+          <option value="b1.jpg">Book 1</option>
+          <option value="b2.jpg">Book 2</option>
+          <option value="b3.jpg">Book 3</option>
+          <option value="b4.jpg">Book 4</option>
+        </select>
+
     <button type="submit">Zverejni</button>
   </div>
   
